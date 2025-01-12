@@ -4,6 +4,33 @@ from fpdf import FPDF
 import os
 from dotenv import load_dotenv
 
+
+st.set_page_config(page_title="Abstract PDF Generator")
+st.markdown("""
+<style>
+    body {
+        font-family: monospace !important;
+    }
+    .stTextInput, .stTextArea, .stSelectbox, .stMultiselect {
+        font-family: monospace !important;
+    }
+    .stMarkdown, .stText {
+        font-family: monospace !important;
+    }
+    button {
+        font-family: monospace !important;
+    }
+    .stAlert {
+        font-family: monospace !important;
+    }
+    .stTab {
+        font-family: monospace !important;
+    }
+    .stHeader {
+        font-family: monospace !important;
+    }
+</style>
+""", unsafe_allow_html=True)
 # Load environment variables
 load_dotenv()
 
