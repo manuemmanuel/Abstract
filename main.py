@@ -93,9 +93,13 @@ def create_pdf(title, abstract, authors):
     
     line_height = 7.5
     
+    # Function to replace unsupported characters
+    def sanitize_text(text):
+        return text.encode('latin1', 'replace').decode('latin1')
+    
     # Title
     pdf.set_font('Times', 'B', 14)
-    pdf.cell(0, line_height, txt=title.upper(), ln=True, align='C')
+    pdf.cell(0, line_height, txt=sanitize_text(title.upper()), ln=True, align='C')
     pdf.ln(2)
     
     # Abstract header
@@ -105,7 +109,7 @@ def create_pdf(title, abstract, authors):
     
     # Abstract content
     pdf.set_font('Times', '', 12)
-    abstract = ' '.join(abstract.split())
+    abstract = sanitize_text(' '.join(abstract.split()))
     pdf.multi_cell(0, line_height, txt=abstract, align='J')
     
     pdf.ln(10)
@@ -113,7 +117,7 @@ def create_pdf(title, abstract, authors):
     # Authors section
     pdf.set_font('Times', '', 12)
     max_width = 0
-    lines = ["Prepared By,"] + [author.strip() + "," for author in authors if author.strip()]
+    lines = ["Prepared By,"] + [sanitize_text(author.strip()) + "," for author in authors if author.strip()]
     
     for line in lines:
         width = pdf.get_string_width(line)
@@ -126,6 +130,7 @@ def create_pdf(title, abstract, authors):
         pdf.cell(max_width, line_height, txt=line, ln=True, align='L')
     
     return pdf.output(dest='S').encode('latin1')
+
 
 def main():
     st.title("Abstract PDF Generator")
